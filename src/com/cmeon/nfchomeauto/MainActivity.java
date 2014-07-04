@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.app.ActionBar;
 import android.view.View;
+import android.content.Intent;
 
 public class MainActivity extends Activity
 {
@@ -17,11 +18,24 @@ public class MainActivity extends Activity
         setContentView(R.layout.main);
     }
 
-    public void openVideosActivity(View view) {}
+    public void openVideosActivity(View view) {
+	startOtherActivity(VideosActivity.class);
+    }
 
-    public void openMusicActivity(View view) {}
+    public void openMusicActivity(View view) {
+	startOtherActivity(MusicActivity.class);
+    }
 
-    public void openPhotosActivity(View view) {}
+    public void openPhotosActivity(View view) {
+	startOtherActivity(PhotosActivity.class);
+    }
 
-    public void openLightsActivity(View view) {}
+    public void openLightsActivity(View view) {
+        startOtherActivity(LightsActivity.class);
+    }
+
+    public void startOtherActivity(Class cls) {
+	Intent intent = new Intent(MainActivity.this, cls);
+	startActivity(intent);
+    };
 }
