@@ -1,13 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- Main Layout for the app -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<TextView
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:text="Hello World, MainActivity"
-    />
+	      android:orientation="vertical"
+	      android:layout_width="fill_parent"
+	      android:layout_height="fill_parent" >
+
+  <!-- Title for the app -->
+  <TextView
+      android:id="@+id/text"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/app_name" />
+
+  <!-- Buttons for options -->
+  <Button
+      android:id="@+id/videos"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Videos"
+      android:onClick="openVideosActivity" />
+  <Button
+      android:id="@+id/music"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Music"
+      android:onClick="openMusicActivity" />
+  <Button
+      android:id="@+id/photos"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Photos"
+      android:onClick="openPhotosActivity" />
+  <Button
+      android:id="@+id/lights"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Lights"
+      android:onClick="openLightsActivity" />
+
 </LinearLayout>
 
