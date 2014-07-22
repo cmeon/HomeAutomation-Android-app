@@ -1,9 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- Music Layout for the app -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	      android:layout_width="match_parent"
+	      android:layout_height="match_parent"
+	      android:background="#00ff00"
 	      android:orientation="vertical"
-	      android:layout_width="fill_parent"
-	      android:layout_height="fill_parent"
-	      android:background="#00ff00">
-</LinearLayout>
+	      >
+
+  <!-- Displays the list of music in covers -->
+  <GridView android:id="@+id/music_grid"
+	    android:numColumns="auto_fit"
+	    android:verticalSpacing="@dimen/verticalSpacing"
+	    android:horizontalSpacing="@dimen/horizontalSpacing"
+	    android:stretchMode="columnWidth"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center"
+	    android:background="#fff" />
+
+  <!-- Displays at the bottom the name of now playing song and controls -->
+  <RelativeLayout android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="#00f"
+		android:layout_alignParentBottom="true"
+		>
+
+    <LinearLayout android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:layout_alignParentLeft="true">
+      <!-- Album art of now playing song -->
+      <ImageView android:id="@+id/musicIcon"
+		 android:layout_width="wrap_content"
+		 android:layout_height="wrap_content"
+		 android:layout_alignParentBottom="true"
+		 android:layout_alignParentLeft="true"
+		 android:src="@drawable/ic_launcher"
+		 />
+      
+      <!-- Name of now playing song -->
+      <TextView android:id="@+id/musicTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:text="Honey Boo Boo"
+		/>
+    </LinearLayout>
+
+    <LinearLayout android:layout_width="wrap_content"
+		  android:layout_height="wrap_content"
+		  android:layout_alignParentRight="true"
+		  >
+      <!-- Previous Button -->
+      <ImageButton android:id="@+id/prevButton"
+		   android:layout_width="wrap_content"
+		   android:layout_height="wrap_content"
+		   android:src="@drawable/ic_action_rewind"
+		   />
+      
+      <!-- Play/Pause Button -->
+      <ImageButton android:id="@+id/playButton"
+		   android:layout_width="wrap_content"
+		   android:layout_height="wrap_content"
+		   android:src="@drawable/ic_action_play"
+		   />
+      
+      <!-- Next Button -->
+      <ImageButton android:id="@+id/nextButton"
+		   android:layout_width="wrap_content"
+		   android:layout_height="wrap_content"
+		   android:src="@drawable/ic_action_fast_forward"
+		   />
+    </LinearLayout>
+  </RelativeLayout> <!-- Bottom controls -->
+  
+</RelativeLayout>

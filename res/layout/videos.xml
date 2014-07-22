@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!-- Videos Layout for the app -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	      android:orientation="vertical"
-	      android:layout_width="fill_parent"
-	      android:layout_height="fill_parent"
-	      android:background="#00ffff" >
-</LinearLayout>
+<GridView xmlns:android="http://schemas.android.com/apk/res/android"
+	  android:id="@+id/videos_grid"
+	  android:numColumns="auto_fit"
+	  android:verticalSpacing="@dimen/verticalSpacing"
+	  android:horizontalSpacing="@dimen/horizontalSpacing"
+	  android:stretchMode="columnWidth"
+	  android:layout_width="fill_parent"
+	  android:layout_height="fill_parent"
+	  android:gravity="center"
+	  android:background="#000" />

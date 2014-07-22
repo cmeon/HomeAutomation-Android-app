@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <dimen name="videoIconHeight">1.125in</dimen>
+  <dimen name="videoIconWidth">0.75in</dimen>
+
+  <dimen name="moviePosterWidth">24dp</dimen>
+  <dimen name="moviePosterHeight">36dp</dimen>
+
+  <dimen name="columnWidth">100dp</dimen>
+  <dimen name="horizontalSpacing">1dp</dimen>
+  <dimen name="verticalSpacing">1dp</dimen>
+</resources>
