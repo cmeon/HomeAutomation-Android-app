@@ -10,7 +10,6 @@ import java.io.InputStreamReader;
 import org.apache.http.impl.client.DefaultHttpClient;
 import java.lang.StringBuilder;
 import java.lang.Exception;
-import android.util.Log;
 
 public class HTTPGetTask extends AsyncTask<String, Void, String>
 {
