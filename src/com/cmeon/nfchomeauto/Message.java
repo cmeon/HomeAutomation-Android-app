@@ -1,5 +1,10 @@
 package com.cmeon.nfchomeauto;
 
+import android.util.Log;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 public class Message
 {
     private String msg;
@@ -11,6 +16,13 @@ public class Message
     }
 
     public String getStringUrl() {
-	return YAP_SERVER_URL + msg;
+        String url = null;
+        try {
+            url = YAP_SERVER_URL + URLEncoder.encode(msg, "utf-8");
+            Log.d("url", url);
+        } catch (UnsupportedEncodingException e) {
+            // handle exception
+        }
+        return url;
     }
 }
