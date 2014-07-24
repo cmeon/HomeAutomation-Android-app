@@ -6,40 +6,52 @@
 	      android:layout_width="fill_parent"
 	      android:layout_height="fill_parent"
 	      android:gravity="center"
-	      android:background="#ffffff">
+	      android:background="@drawable/movie"
+    android:weightSum="1">
 
   <!-- Title for the app -->
-  <TextView
+
+    <TextView
       android:id="@+id/text"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:text="@string/app_name" />
+      android:text="@string/app_name"
+      android:layout_gravity="center"
+      android:textAlignment="center"
+      android:textAllCaps="false"
+      android:textStyle="bold"
+      android:typeface="serif"
+        android:textAppearance="@android:style/TextAppearance.Holo.Large" />
 
   <!-- Buttons for options -->
-  <Button
+    <Button
       android:id="@+id/videos"
-      android:layout_width="wrap_content"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="Videos"
+      android:text="@string/videos_button"
       android:onClick="openVideosActivity" />
-  <Button
-      android:id="@+id/music"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Music"
-      android:onClick="openMusicActivity" />
-  <Button
+
+    <Button
+        android:id="@+id/music"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/music_button"
+        android:onClick="openMusicActivity" />
+
+    <Button
       android:id="@+id/photos"
-      android:layout_width="wrap_content"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="Photos"
-      android:onClick="openPhotosActivity" />
+      android:text="@string/photos_button"
+      android:onClick="openPhotosActivity"
+        android:visibility="invisible" />
   <Button
       android:id="@+id/lights"
-      android:layout_width="wrap_content"
+      android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="Lights"
-      android:onClick="openLightsActivity" />
+      android:text="@string/lights_button"
+      android:onClick="openLightsActivity"
+      android:visibility="invisible" />
 
 </LinearLayout>
 

@@ -5,26 +5,27 @@ import android.widget.ImageView;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.util.Log;
 import android.widget.GridView;
-import android.content.res.Resources;
 
-public class ImageAdapter extends BaseAdapter {
+class ImageAdapter extends BaseAdapter {
 
-    private Context mContext;
-    private int mHeight;
-    private int mWidth;
+    private final Context mContext;
+    private final int mHeight;
+    private final int mWidth;
+    private final Integer[] mThumbIds;
 
-    public ImageAdapter(Context c, int h, int w) {
-	mContext = c;
-	mHeight  = h;
-	mWidth   = w;
+    public ImageAdapter(Context c, int h, int w, Integer[] thumbs) {
+	    this.mContext = c;
+	    this.mHeight  = h;
+	    this.mWidth   = w;
+        this.mThumbIds = thumbs;
     }
 
-    public ImageAdapter(Context c) {
-	mContext = c;
-	mHeight = GridView.LayoutParams.MATCH_PARENT;
-	mWidth  = GridView.LayoutParams.MATCH_PARENT;
+    public ImageAdapter(Context c, Integer[] thumbs) {
+	    this.mContext = c;
+	    this.mHeight = GridView.LayoutParams.MATCH_PARENT;
+	    this.mWidth  = GridView.LayoutParams.MATCH_PARENT;
+        this.mThumbIds = thumbs;
     }
 
     public int getCount() {
@@ -50,33 +51,11 @@ public class ImageAdapter extends BaseAdapter {
 	    imageView.setLayoutParams(new GridView.LayoutParams(mWidth, mHeight));
 	    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 	    imageView.setPadding(0, 0, 0, 0);
-	    /*
-	    imageView.setOnClickListener(new View.OnClickListener() {
-		    @Override
-		    public void onClick(View view) {
-			Log.d("onClick","position ["+position+"]");
-		    }
-		});
-	    */
+
 	} else {
 	    imageView = (ImageView) convertView;
 	}
 	imageView.setImageResource(mThumbIds[position]);
 	return imageView;
     }
-
-    // references to our images
-    private Integer[] mThumbIds = {
-        R.drawable.sample_2, R.drawable.sample_3,
-        R.drawable.sample_4, R.drawable.sample_5,
-        R.drawable.sample_6, R.drawable.sample_7,
-        R.drawable.sample_0, R.drawable.sample_1,
-        R.drawable.sample_2, R.drawable.sample_3,
-        R.drawable.sample_4, R.drawable.sample_5,
-        R.drawable.sample_6, R.drawable.sample_7,
-        R.drawable.sample_0, R.drawable.sample_1,
-        R.drawable.sample_2, R.drawable.sample_3,
-        R.drawable.sample_4, R.drawable.sample_5,
-        R.drawable.sample_6, R.drawable.sample_7
-    };
 }

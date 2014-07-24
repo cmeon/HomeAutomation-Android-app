@@ -36,7 +36,8 @@ public class MovieInfo extends Activity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				 Bundle savedInstanceState) {
 	    View v = inflater.inflate(R.layout.movie_poster, container, false);
-	    v.setClickable(true);
+            assert v != null;
+            v.setClickable(true);
 	    v.setOnClickListener( new View.OnClickListener() {
 		    @Override
 		    public void onClick(View view) {
@@ -57,7 +58,8 @@ public class MovieInfo extends Activity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				 Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.movie_info, container, false);
-	    v.setClickable(true);
+            assert v != null;
+            v.setClickable(true);
 	    v.setOnClickListener( new View.OnClickListener() {
 		    @Override
 		    public void onClick(View view) {
@@ -69,7 +71,7 @@ public class MovieInfo extends Activity {
     }
 
 
-    public void flipCard() {
+    private void flipCard() {
 	if (mShowingBack) {
 	    mShowingBack = false;
 	    getFragmentManager().popBackStack();

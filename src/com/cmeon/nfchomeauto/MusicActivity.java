@@ -2,7 +2,6 @@ package com.cmeon.nfchomeauto;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.app.ActionBar;
 import android.view.View;
 import android.widget.GridView;
 import android.content.res.Resources;
@@ -26,7 +25,7 @@ public class MusicActivity extends Activity implements AsyncTaskCompleteListener
 	
 	Resources res = getResources();
 
-	gridView.setAdapter(new ImageAdapter(this));
+	gridView.setAdapter(new ImageAdapter(this, musicThumbIds));
        	gridView.setColumnWidth(res.getDimensionPixelSize(R.dimen.columnWidth));
 
 	gridView.setOnItemClickListener(new OnItemClickListener() {
@@ -38,4 +37,12 @@ public class MusicActivity extends Activity implements AsyncTaskCompleteListener
 		}
 	    });
     }
+
+    // references to our images
+    private final Integer[] musicThumbIds = {
+            R.drawable.tt0120903, R.drawable.tt0311429,
+            R.drawable.tt0903747, R.drawable.tt1204975,
+            R.drawable.tt1403865, R.drawable.tt1826590,
+            R.drawable.tt2239832, R.drawable.tt1621045
+    };
 }

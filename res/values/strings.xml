@@ -3,4 +3,8 @@
     <string name="app_name">Memorabilia</string>
 
     <string name="videos">Videos</string>
+    <string name="videos_button">Videos</string>
+    <string name="photos_button">Photos</string>
+    <string name="lights_button">Lights</string>
+    <string name="music_button">Music</string>
 </resources>

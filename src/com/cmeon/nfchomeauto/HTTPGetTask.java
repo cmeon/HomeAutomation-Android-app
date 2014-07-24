@@ -14,7 +14,7 @@ import java.lang.Exception;
 public class HTTPGetTask extends AsyncTask<String, Void, String>
 {
 
-    private AsyncTaskCompleteListener<String> callback;
+    private final AsyncTaskCompleteListener<String> callback;
 
     public HTTPGetTask(AsyncTaskCompleteListener<String> callback) {
 	this.callback = callback;

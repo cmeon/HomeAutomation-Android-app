@@ -6,7 +6,6 @@
 	      android:layout_width="match_parent"
 	      android:layout_height="match_parent"
 	      android:orientation="vertical"
-	      android:background="#fff"
 	      >
   <LinearLayout android:gravity="center"
 		android:layout_width="match_parent"
@@ -30,7 +29,6 @@
             android:lineSpacingMultiplier="1.2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-	    android:text="masdo fnp dsiofsamf ampdifjnadinfa ijn dpifa n dsjicna pidp nvaij dnpandpc annav daiaovdbo vadb aihbdo pfa op ifqbaid nvcaind cobaobdvh a ohvdba oaidnfaif"
 	    android:layout_gravity="center_vertical|right"
 	    />
 </LinearLayout>

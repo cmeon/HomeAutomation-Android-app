@@ -14,7 +14,8 @@ public class MainActivity extends Activity
     {
         super.onCreate(savedInstanceState);
 	ActionBar actionBar = getActionBar();
-	actionBar.hide();
+        assert actionBar != null;
+        actionBar.hide();
         setContentView(R.layout.main);
     }
 
@@ -34,8 +35,8 @@ public class MainActivity extends Activity
         startOtherActivity(LightsActivity.class);
     }
 
-    public void startOtherActivity(Class cls) {
+    void startOtherActivity(Class cls) {
 	Intent intent = new Intent(MainActivity.this, cls);
 	startActivity(intent);
-    };
+    }
 }

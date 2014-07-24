@@ -7,12 +7,12 @@ import java.net.URLEncoder;
 
 public class Message
 {
-    private String msg;
+    private final String msg;
     private static final String YAP_SERVER_URL =
 	"http://mmu-foe-capstone.appspot.com/control?group=15&msg=";
     
     public Message(String msg) {
-	this.msg = msg;
+	    this.msg = msg;
     }
 
     public String getStringUrl() {
