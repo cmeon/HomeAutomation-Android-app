@@ -1,7 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	      android:id="@+id/movie_info_container"
-	      android:layout_width="match_parent"
-	      android:layout_height="match_parent"
-	      />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dominant_color"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <com.cmeon.nfchomeauto.TopCenterImageView
+        android:id="@+id/normal_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.cmeon.nfchomeauto.TopCenterImageView
+        android:id="@+id/blurred_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0" />
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp" >
+
+        <com.cmeon.nfchomeauto.ScrollableImageView
+            android:id="@+id/blurred_image_header"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/header_text"
+            android:gravity="center_vertical"
+            android:textSize="18sp"
+            android:background="@drawable/header"
+            android:paddingLeft="10dp"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/background_switch"
+            android:src="@drawable/ic_action_play"
+            android:layout_marginRight="15dp"
+            android:checked="true"
+            android:textOn="On"
+            android:textOff="Off"
+            android:layout_gravity="center_vertical|right"/>
+    </FrameLayout>
+
+</RelativeLayout>

@@ -3,8 +3,10 @@ package com.cmeon.nfchomeauto;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
 import android.content.res.Resources;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -14,7 +16,7 @@ public class MusicActivity extends Activity implements AsyncTaskCompleteListener
     // shows the results
     @Override
     public void onTaskComplete(String result) {
-	Toast.makeText(MusicActivity.this, result, Toast.LENGTH_SHORT).show();
+	    Toast.makeText(MusicActivity.this, result, Toast.LENGTH_SHORT).show();
     }
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,24 +27,43 @@ public class MusicActivity extends Activity implements AsyncTaskCompleteListener
 	
 	Resources res = getResources();
 
-	gridView.setAdapter(new ImageAdapter(this, musicThumbIds));
-       	gridView.setColumnWidth(res.getDimensionPixelSize(R.dimen.columnWidth));
+	gridView.setAdapter(new ImageAdapter(this, new Data().musicThumbIds));
+    gridView.setColumnWidth(res.getDimensionPixelSize(R.dimen.columnWidth));
 
 	gridView.setOnItemClickListener(new OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 		    // make a http request
-		    Message msg = new Message("play_video break");
+		    Message msg = new Message("play_video " + new Data().musicThumbIds[position]);
 		    new HTTPGetTask(MusicActivity.this).execute(msg.getStringUrl());
 		    Toast.makeText(MusicActivity.this, ""+position, Toast.LENGTH_SHORT).show();
-		}
+		    }
 	    });
-    }
 
-    // references to our images
-    private final Integer[] musicThumbIds = {
-            R.drawable.tt0120903, R.drawable.tt0311429,
-            R.drawable.tt0903747, R.drawable.tt1204975,
-            R.drawable.tt1403865, R.drawable.tt1826590,
-            R.drawable.tt2239832, R.drawable.tt1621045
-    };
+        // Pause action
+        findViewById(R.id.playButton).setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Message msg = new Message("action pause");
+                new HTTPGetTask(MusicActivity.this).execute(msg.getStringUrl());
+            }
+        });
+
+        // Next action
+        findViewById(R.id.nextButton).setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Message msg = new Message("action next");
+                new HTTPGetTask(MusicActivity.this).execute(msg.getStringUrl());
+            }
+        });
+
+        // Prev action
+        findViewById(R.id.prevButton).setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Message msg = new Message("action prev");
+                new HTTPGetTask(MusicActivity.this).execute(msg.getStringUrl());
+            }
+        });
+    }
 }
