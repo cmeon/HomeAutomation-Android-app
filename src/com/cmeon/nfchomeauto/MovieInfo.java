@@ -2,33 +2,36 @@ package com.cmeon.nfchomeauto;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.media.Rating;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
+import android.nfc.tech.MifareClassic;
+import android.nfc.tech.MifareUltralight;
+import android.nfc.tech.Ndef;
+import android.nfc.tech.NdefFormatable;
+import android.nfc.tech.NfcA;
+import android.nfc.tech.NfcB;
+import android.nfc.tech.NfcF;
+import android.nfc.tech.NfcV;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RatingBar;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class MovieInfo extends Activity implements AsyncTaskCompleteListener<String>{
+public class MovieInfo extends Activity implements AsyncTaskCompleteListener<String> {
 
     private static final int TOP_HEIGHT = 700;
     private ListView mList;
@@ -36,8 +39,14 @@ public class MovieInfo extends Activity implements AsyncTaskCompleteListener<Str
     private View headerView;
     private ImageView mNormalImage;
     private ScrollableImageView mBlurredImageHeader;
-    private ImageButton mSwitch;
+    private ImageButton mPlayButton, mStopButton;
     private float alpha;
+
+    private PendingIntent pendingIntent;
+    private final static String EXTRA_MESSAGE = "com.cmeon.nfchomeauto.MESSAGE";
+    private IntentFilter[] intentFiltersArray;
+    private String[][] techListsArray;
+    private NfcAdapter mNfcAdapter;
 
     // shows the results
     @Override
@@ -49,14 +58,15 @@ public class MovieInfo extends Activity implements AsyncTaskCompleteListener<Str
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActionBar actionBar = getActionBar();
+        assert actionBar != null;
         actionBar.hide();
 
         Intent intent = getIntent();
         final Integer position = intent.getIntExtra(VideosActivity.EXTRA_POS, 0);
-        final Integer movieThumb = new Data().movieThumbIds[position];
-        final String movieId = new Data().movieIds[position];
+        final String movieId = Data.movieIds[position];
+        final int movieThumb = Res.getResourceId(movieId);
 
-//        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        // requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.video_fragment);
 
         // Get the screen width
@@ -66,7 +76,8 @@ public class MovieInfo extends Activity implements AsyncTaskCompleteListener<Str
         mBlurredImage = (ImageView) findViewById(R.id.blurred_image);
         mNormalImage = (ImageView) findViewById(R.id.normal_image);
         mBlurredImageHeader = (ScrollableImageView) findViewById(R.id.blurred_image_header);
-        mSwitch = (ImageButton) findViewById(R.id.background_switch);
+        mPlayButton = (ImageButton) findViewById(R.id.playButton);
+        mStopButton = (ImageButton) findViewById(R.id.stopButton);
         mList = (ListView) findViewById(R.id.list);
 
         // prepare the header ScrollableImageView
@@ -88,7 +99,7 @@ public class MovieInfo extends Activity implements AsyncTaskCompleteListener<Str
         });
         */
 
-        mSwitch.setOnClickListener( new View.OnClickListener() {
+        mPlayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Message msg = new Message("play_movie " + movieId);
@@ -96,8 +107,16 @@ public class MovieInfo extends Activity implements AsyncTaskCompleteListener<Str
             }
         });
 
+        mStopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Message msg = new Message("action next");
+                new HTTPGetTask(MovieInfo.this).execute(msg.getStringUrl());
+            }
+        });
+
         // Try to find the blurred image
-        final File blurredImage = new File(getFilesDir() + movieId);
+        final File blurredImage = new File(getFilesDir() + "/" + movieId);
         if (!blurredImage.exists()) {
 
             // launch the progressbar in ActionBar
@@ -140,7 +159,7 @@ public class MovieInfo extends Activity implements AsyncTaskCompleteListener<Str
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Bitmap image = BitmapFactory.decodeFile(getFilesDir() + movieId);
+                Bitmap image = BitmapFactory.decodeResource(getResources(), movieThumb);
                 try {
                     result[0] = MMCQ.compute(image, 5).get(0);
                 } catch (IOException e) {
@@ -168,7 +187,7 @@ public class MovieInfo extends Activity implements AsyncTaskCompleteListener<Str
         // Prepare the header view for our list
         headerView = new View(this);
         headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, TOP_HEIGHT));
-        TextView header = (TextView)findViewById(R.id.header_text);
+        TextView header = (TextView) findViewById(R.id.header_text);
         header.setText("new movie");
 
         mList.addHeaderView(headerView);
@@ -212,13 +231,49 @@ public class MovieInfo extends Activity implements AsyncTaskCompleteListener<Str
             }
         });
 
+        // Check for available NFC Adapter
+        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if (mNfcAdapter == null) {
+            Toast.makeText(this, "NFC is not available", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+        pendingIntent = PendingIntent.getActivity(
+                this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+
+        IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+        IntentFilter tech = new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED);
+        IntentFilter tag = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
+        try {
+            ndef.addDataType("*/*");    /* Handles all MIME based dispatches.
+                                       You should specify only the ones that you need. */
+            tech.addDataType("*/*");
+        } catch (IntentFilter.MalformedMimeTypeException e) {
+            throw new RuntimeException("fail", e);
+        }
+
+        intentFiltersArray = new IntentFilter[]{ndef, tech, tag};
+
+        techListsArray = new String[][]{new String[]{
+                NfcF.class.getName(),
+                MifareClassic.class.getName(),
+                MifareUltralight.class.getName(),
+                Ndef.class.getName(),
+                NdefFormatable.class.getName(),
+                NfcA.class.getName(),
+                NfcB.class.getName(),
+                NfcV.class.getName()
+        }};
+
+        nfcIntentHandler(intent);
         // Set Rating
         //final RatingBar ratingBar = (RatingBar) findViewById(R.id.movie_rating);
         //ratingBar.setRating( (new Data().getRating("movie", position)) / 2.0f );
     }
 
+
     private void updateView(final int screenWidth, final String movieId) {
-        Bitmap bmpBlurred = BitmapFactory.decodeFile(getFilesDir() + movieId);
+        Bitmap bmpBlurred = BitmapFactory.decodeFile(getFilesDir() + "/" + movieId);
         bmpBlurred = Bitmap.createScaledBitmap(bmpBlurred, screenWidth, (int) (bmpBlurred.getHeight()
                 * ((float) screenWidth) / (float) bmpBlurred.getWidth()), false);
 
@@ -226,5 +281,68 @@ public class MovieInfo extends Activity implements AsyncTaskCompleteListener<Str
 
         mBlurredImage.setImageBitmap(bmpBlurred);
     }
-}
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mNfcAdapter.disableForegroundDispatch(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("state", "resume");
+        mNfcAdapter.enableForegroundDispatch(this, pendingIntent,
+                intentFiltersArray, techListsArray);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        nfcIntentHandler(intent);
+    }
+
+    private void nfcIntentHandler(Intent intent) {
+        String action = intent.getAction();
+        Log.d("nfc", "nfc");
+        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(action) ||
+                NfcAdapter.ACTION_TECH_DISCOVERED.equals(action) ||
+                NfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
+            Log.d("nfc", "nfc tech");
+            Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+            String tagID = bin2hex(tag.getId());
+            String tagMessage = Data.getIDInfo(tagID);
+
+            if (tagMessage.split(" ")[0].equals("action")) {
+                Message msg = new Message(tagMessage);
+                new HTTPGetTask(this).execute(msg.getStringUrl());
+            }
+
+            // Handle torch work
+            if (tagMessage.split(" ")[0].equals("torch")) {
+                Message msg = new Message(tagMessage);
+                new HTTPGetTask(this).execute(msg.getStringUrl());
+                startAnotherActivity(tagMessage, LightsActivity.class);
+            }
+        }
+
+
+    }
+
+    private static String bin2hex(byte[] data) {
+        String result = "";
+        if (data.length != 0) {
+            StringBuilder sb = new StringBuilder();
+            for (byte b : data) {
+                sb.append(String.format("%02X", b));
+            }
+            result = sb.toString();
+        }
+        return result;
+    }
+
+    private void startAnotherActivity(String message, Class NewActivity) {
+        Intent intent = new Intent(this, NewActivity);
+        intent.putExtra(EXTRA_MESSAGE, message);
+        startActivity(intent);
+    }
+}

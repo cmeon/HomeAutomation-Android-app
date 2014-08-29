@@ -39,16 +39,34 @@
             android:textSize="18sp"
             android:background="@drawable/header"
             android:paddingLeft="10dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            android:layout_marginRight="15dp"
+            android:layout_gravity="center_vertical|right"
+            >
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/background_switch"
-            android:src="@drawable/ic_action_play"
-            android:layout_marginRight="15dp"
+            android:id="@+id/stopButton"
+            android:src="@drawable/ic_action_stop"
             android:checked="true"
             android:textOn="On"
             android:textOff="Off"
-            android:layout_gravity="center_vertical|right"/>
+            android:contentDescription="@string/stop_help" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/playButton"
+            android:src="@drawable/ic_action_play"
+            android:checked="true"
+            android:textOn="On"
+            android:textOff="Off"
+            android:contentDescription="@string/play_help" />
+        </LinearLayout>
     </FrameLayout>
 
 </RelativeLayout>

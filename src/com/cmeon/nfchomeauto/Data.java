@@ -1,5 +1,5 @@
 package com.cmeon.nfchomeauto;
-
+import java.util.HashMap;
 /**
  * Created by cmeon on 24/07/14.
  */
@@ -10,25 +10,12 @@ public class Data {
             "tt1403865", "tt1826590",
             "tt2239832", "tt1621045"
     };
-    public static final String[] musicds = {
-            "tt0120903", "tt0311429",
-            "tt0903747", "tt1204975",
-            "tt1403865", "tt1826590",
-            "tt2239832", "tt1621045"
-    };
-    // references to our images
-    public static final Integer[] movieThumbIds = {
-            R.drawable.tt0120903, R.drawable.tt0311429,
-            R.drawable.tt0903747, R.drawable.tt1204975,
-            R.drawable.tt1403865, R.drawable.tt1826590,
-            R.drawable.tt2239832, R.drawable.tt1621045
+    public static final String[] musicIds = {
+            "tt012090", "tt031142"
     };
     // references to our images
     public static final Integer[] musicThumbIds = {
-            R.drawable.tt0120903, R.drawable.tt0311429,
-            R.drawable.tt0903747, R.drawable.tt1204975,
-            R.drawable.tt1403865, R.drawable.tt1826590,
-            R.drawable.tt2239832, R.drawable.tt1621045
+            R.drawable.shakira, R.drawable.pitbull
     };
 
     // references to our images
@@ -87,19 +74,33 @@ public class Data {
             9.9f, 7.8f, 7.8f, 6.9f
     };
 
-    private Integer pos;
 
     public float getRating(String type, Integer pos) {
          float rating = 0;
-         if (type == "music")
+         if (type.equals("music"))
              rating = musicRatingsIds[pos];
-         else if (type == "movie")
+         else if (type.equals("movie"))
              rating = movieRatingsIds[pos];
          return rating;
     }
 
     public String getInfo(Integer pos) {
-        String info = movieInfoIds[pos];
+        return movieInfoIds[pos];
+    }
+
+    public static String getIDInfo(String tagID) {
+        String info = " ";
+        HashMap hm = new HashMap();
+        // Put elements to the map
+        hm.put("043D2E8A092980", "action stop");
+        hm.put("0457228A092980", "action pause");
+        hm.put("046A228A092980", "torch on");
+        hm.put("04512E8A092980", "torch off");
+        hm.put("042AD3415B2380", "video tt0120903");
+        if (hm.get(tagID) != null) {
+            info = hm.get(tagID).toString();
+        }
         return info;
     }
+
 }

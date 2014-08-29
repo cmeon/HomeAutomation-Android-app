@@ -7,4 +7,6 @@
     <string name="photos_button">Photos</string>
     <string name="lights_button">Lights</string>
     <string name="music_button">Music</string>
+    <string name="play_help">Play Media</string>
+    <string name="stop_help">Stop Media</string>
 </resources>

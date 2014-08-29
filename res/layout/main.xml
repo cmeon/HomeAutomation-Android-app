@@ -10,7 +10,6 @@
     android:weightSum="1">
 
   <!-- Title for the app -->
-
     <TextView
       android:id="@+id/text"
       android:layout_width="wrap_content"
@@ -39,19 +38,19 @@
         android:onClick="openMusicActivity" />
 
     <Button
+        android:id="@+id/lights"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/lights_button"
+        android:onClick="openLightsActivity" />
+
+    <Button
       android:id="@+id/photos"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/photos_button"
       android:onClick="openPhotosActivity"
         android:visibility="invisible" />
-  <Button
-      android:id="@+id/lights"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/lights_button"
-      android:onClick="openLightsActivity"
-      android:visibility="invisible" />
 
 </LinearLayout>
 

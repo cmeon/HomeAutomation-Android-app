@@ -31,7 +31,7 @@ public class VideosActivity extends Activity implements AsyncTaskCompleteListene
 	int h = res.getDimensionPixelSize(R.dimen.videoIconHeight);
 	int w = res.getDimensionPixelSize(R.dimen.videoIconWidth);
 
-	gridView.setAdapter(new ImageAdapter(this, h, w, new Data().movieThumbIds));
+	gridView.setAdapter(new ImageAdapter(this, h, w, Res.getResourceId(Data.movieIds)));
     gridView.setColumnWidth(res.getDimensionPixelSize(R.dimen.columnWidth));
 
 	gridView.setOnItemClickListener(new OnItemClickListener() {
@@ -43,4 +43,5 @@ public class VideosActivity extends Activity implements AsyncTaskCompleteListene
 		}
 	    });
     }
+
 }

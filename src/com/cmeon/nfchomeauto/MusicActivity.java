@@ -3,10 +3,8 @@ package com.cmeon.nfchomeauto;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.GridView;
 import android.content.res.Resources;
-import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -27,13 +25,13 @@ public class MusicActivity extends Activity implements AsyncTaskCompleteListener
 	
 	Resources res = getResources();
 
-	gridView.setAdapter(new ImageAdapter(this, new Data().musicThumbIds));
+	gridView.setAdapter(new ImageAdapter(this, Data.musicThumbIds));
     gridView.setColumnWidth(res.getDimensionPixelSize(R.dimen.columnWidth));
 
 	gridView.setOnItemClickListener(new OnItemClickListener() {
 		public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 		    // make a http request
-		    Message msg = new Message("play_video " + new Data().musicThumbIds[position]);
+		    Message msg = new Message("play_video " + Data.musicIds[position]);
 		    new HTTPGetTask(MusicActivity.this).execute(msg.getStringUrl());
 		    Toast.makeText(MusicActivity.this, ""+position, Toast.LENGTH_SHORT).show();
 		    }

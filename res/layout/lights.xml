@@ -8,4 +8,13 @@
 	     android:layout_height="match_parent"
 	     android:gravity="center"
 	     >
+    <ToggleButton
+        android:id="@+id/togglebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/check"
+        android:textOn="Lamp On"
+        android:textOff="Lamp off"
+        android:onClick="onToggleClicked"/>
+
 </LinearLayout>
